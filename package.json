@@ -1,0 +1,9 @@
+{
+  "name": "vbox-replay-web",
+  "version": "6.4.1",
+  "private": true,
+  "type": "module",
+  "description": "Browser edition of a sim-racing telemetry desktop client (study): stand-in server, VBOX converter, OSM track maps",
+  "scripts": { "start": "node server/server.mjs", "build:delta": "node server/delta-encode.mjs" },
+  "dependencies": { "protobufjs": "7.2.5" }
+}

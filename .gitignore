@@ -1,0 +1,16 @@
+# The original desktop client's web bundle and captured pages — third-party, not redistributed.
+# Obtain them from your own installed copy of the desktop app (see README "Setup").
+public/dist/
+public/images/
+public/fa/
+public/fonts/
+public/favicon.ico
+views/raw/
+views/cache/
+
+# Local data: sessions, telemetry, video, caches, personal account
+data/
+
+node_modules/
+.DS_Store
+.npmcache/
