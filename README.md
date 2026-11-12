@@ -27,6 +27,9 @@ affiliated with or endorsed by that publisher.
   directory of the app). Copy the web bundle out with the asar tool. From PowerShell in this project folder:
   `npx asar extract "<install dir>\resources\app.asar" .\_app`, then move `_app\dist` → `public\dist\<version>`, and
   `images`, `fa`, `fonts` → `public\`. Delete `_app` afterwards.
+- `data\ellei18n.json` and `data\elledata.json` are also not in the repo (they come from the client's bundle, the same
+  as `public\dist`). The server won't start without them. Copy both from a working setup into `data\`, or extract them
+  from the same app package as the bundle.
 - Install Node.js LTS. Install ffmpeg and make sure `ffmpeg.exe` is on your PATH (or set `FFMPEG=C:\path\ffmpeg.exe`).
   Clip cutting uses `libx264` on Windows (Apple's `h264_videotoolbox` is macOS-only); override with `FFMPEG_ENCODER`.
 - Camera files are searched in the folder next to the `.vbo`, `data\vbox`, `%USERPROFILE%\Movies`, `Downloads` and `Videos`.

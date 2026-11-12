@@ -4,8 +4,15 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const SIGNATURE = '6.4.0.1793636640';
-const i18n = JSON.parse(fs.readFileSync(path.join(root, 'data', 'ellei18n.json'), 'utf8'));
-const elledata = JSON.parse(fs.readFileSync(path.join(root, 'data', 'elledata.json'), 'utf8'));
+function readDataFile(name) {
+  const file = path.join(root, 'data', name);
+  if (!fs.existsSync(file)) {
+    throw new Error(`Missing data\\${name} (expected at ${file}). It is not in the repo: copy it from a working setup (see README "Setup", step 1).`);
+  }
+  return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+const i18n = readDataFile('ellei18n.json');
+const elledata = readDataFile('elledata.json');
 
 export function baseConfig(user, extra = {}) {
   return {
