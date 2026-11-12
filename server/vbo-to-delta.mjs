@@ -6,6 +6,7 @@
 //
 // Output: data/<id>.delta, data/trackmap-<sim>-<track>.json, names in data/names.json. The server picks them up on restart.
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { encodeSession } from './delta-encode.mjs';
@@ -201,7 +202,7 @@ const meta = fs.existsSync(metaFile) ? JSON.parse(fs.readFileSync(metaFile, 'utf
 const aviPrefix = (sections.avi || [])[0] || '', aviExt = (sections.avi || [])[1] || 'mp4';
 const videoFiles = {};
 if (aviPrefix) {
-  const dirs = [path.dirname(path.resolve(file)), path.join(root, 'data', 'vbox'), path.join(process.env.HOME || '', 'Movies'), path.join(process.env.HOME || '', 'Downloads')];
+  const dirs = [path.dirname(path.resolve(file)), path.join(root, 'data', 'vbox'), path.join(os.homedir(), 'Movies'), path.join(os.homedir(), 'Downloads'), path.join(os.homedir(), 'Videos')];
   for (const idx of new Set(Object.values(videoWindows).filter(Boolean).map((w) => w.file))) {
     for (const dir of dirs) {
       for (const ext of [aviExt, aviExt.toUpperCase(), 'mp4', 'MP4', 'avi']) {

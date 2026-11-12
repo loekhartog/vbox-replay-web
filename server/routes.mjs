@@ -30,7 +30,10 @@ function lapClip(id, lapNumber) {
   if (clipJobs.has(out)) return clipJobs.get(out);
   // Frame-accurate cut (re-encoded) so video time 0 is exactly the start/finish crossing. Delta maps lap time onto video duration.
   const dur = ((v.endMs - v.startMs) / 1000).toFixed(3);
-  const args = ['-hide_banner', '-loglevel', 'error', '-y', '-ss', (v.startMs / 1000).toFixed(3), '-t', dur, '-i', v.src, '-vf', 'scale=-2:720', '-c:v', 'h264_videotoolbox', '-b:v', '3000k', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', out + '.part.mp4'];
+  // h264_videotoolbox is macOS-only; elsewhere use libx264 (override with FFMPEG_ENCODER).
+  const encoder = process.env.FFMPEG_ENCODER || (process.platform === 'darwin' ? 'h264_videotoolbox' : 'libx264');
+  const encArgs = encoder === 'libx264' ? ['-preset', 'veryfast'] : [];
+  const args = ['-hide_banner', '-loglevel', 'error', '-y', '-ss', (v.startMs / 1000).toFixed(3), '-t', dur, '-i', v.src, '-vf', 'scale=-2:720', '-c:v', encoder, ...encArgs, '-b:v', '3000k', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', out + '.part.mp4'];
   const job = new Promise((resolve) => {
     const ff = spawn(process.env.FFMPEG || 'ffmpeg', args);
     let err = ''; ff.stderr.on('data', (d) => (err += d));

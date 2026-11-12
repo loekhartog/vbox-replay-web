@@ -20,6 +20,18 @@ affiliated with or endorsed by that publisher.
 2. Capture the server-rendered pages you need into `views/raw/` from your own logged-in session.
 3. `npm install && npm start`, then convert a VBOX log with `server/vbo-to-delta.mjs` (below).
 
+### Windows
+
+- The download from GitHub (Code → Download ZIP) contains only the code. You still need step 1 and 2 above.
+- Install the desktop client, then find its `resources` folder (the one containing `app.asar`, usually under the install
+  directory of the app). Copy the web bundle out with the asar tool. From PowerShell in this project folder:
+  `npx asar extract "<install dir>\resources\app.asar" .\_app`, then move `_app\dist` → `public\dist\<version>`, and
+  `images`, `fa`, `fonts` → `public\`. Delete `_app` afterwards.
+- Install Node.js LTS. Install ffmpeg and make sure `ffmpeg.exe` is on your PATH (or set `FFMPEG=C:\path\ffmpeg.exe`).
+  Clip cutting uses `libx264` on Windows (Apple's `h264_videotoolbox` is macOS-only); override with `FFMPEG_ENCODER`.
+- Camera files are searched in the folder next to the `.vbo`, `data\vbox`, `%USERPROFILE%\Movies`, `Downloads` and `Videos`.
+- Run `npm install` and `npm start` in PowerShell. Open http://localhost:8788.
+
     npm start            # http://localhost:8788
     npm run build:delta  # re-encode data/*.json sessions into .delta files
 
